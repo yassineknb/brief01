@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard RH</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            },
+            secondary: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+            },
+            success: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            warning: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f',
+            },
+            danger: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              200: '#fecaca',
+              300: '#fca5a5',
+              400: '#f87171',
+              500: '#ef4444',
+              600: '#dc2626',
+              700: '#b91c1c',
+              800: '#991b1b',
+              900: '#7f1d1d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Masquer toutes les pages par défaut */
+    .page {
+      display: none;
+    }
+    
+    /* Afficher uniquement la page ciblée */
+    #dashboard:target,
+    #mes-conges:target,
+    #demande:target,
+    #admin:target {
+      display: block;
+    }
+    
+    /* Masquer le dashboard quand une autre page est ciblée */
+    #mes-conges:target ~ #dashboard,
+    #demande:target ~ #dashboard,
+    #admin:target ~ #dashboard {
+      display: none;
+    }
+    
+    /* Style pour la navigation active */
+    .nav-link.active {
+      color: #0ea5e9;
+      border-bottom: 2px solid #0ea5e9;
+    }
+    
+    /* Animation douce pour les transitions */
+    .transition-all {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-secondary-50 font-sans min-h-screen flex flex-col">
+
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      
+      <a href="#dashboard" class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-primary-600 text-white flex items-center justify-center rounded">
+          <span class="font-bold">RH</span>
+        </div>
+        <span class="text-lg font-semibold text-secondary-800">Dashboard RH</span>
+      </a>
+
+      <nav class="hidden md:flex space-x-6 text-secondary-600 font-medium">
+        <a href="#dashboard" class="nav-link active text-primary-600 border-b-2 border-primary-600 pb-1">Dashboard</a>
+        <a href="#mes-conges" class="nav-link hover:text-primary-600 transition-all">Mes congés</a>
+        <a href="#demande" class="nav-link hover:text-primary-600 transition-all">Demande de congé</a>
+        <a href="#admin" class="nav-link hover:text-primary-600 transition-all">Administration</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <button class="relative">
+          <span class="absolute top-0 right-0 w-2 h-2 bg-danger-500 rounded-full"></span>
+          <svg class="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C8.67 6.165 8 7.388 8 9v5.159c0 .538-.214 1.055-.595 1.436L6 17h5" />
+          </svg>
+        </button>
+        <div class="relative">
+          <img src="https://i.pravatar.cc/40" alt="profil" class="w-10 h-10 rounded-full border-2 border-primary-200">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- PAGE DASHBOARD -->
+    <div id="dashboard" class="page">
+      <div class="max-w-7xl mx-auto p-6 space-y-6">
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold text-secondary-800">Tableau de bord</h1>
+          <p class="text-secondary-600">Bienvenue, gérez vos congés et suivez vos demandes</p>
+        </div>
+
+        <section class="bg-gradient-to-r from-primary-50 to-primary-100 p-4 rounded-xl border border-primary-200">
+          <div class="flex items-center space-x-3">
+            <div class="bg-primary-600 text-white w-10 h-10 flex items-center justify-center rounded-full">
+              <span class="material-icons">notifications</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-primary-800">Fermeture exceptionnelle</h3>
+              <p class="text-sm text-primary-700">
+                Les bureaux seront fermés le 15 mars 2025 pour maintenance. Planifiez vos congés en conséquence.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <div class="bg-white p-5 rounded-xl shadow-md border border-secondary-100 hover:shadow-lg transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-semibold text-secondary-800">Solde de congés</h4>
+              <span class="material-icons text-primary-500">event</span>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span class="text-secondary-600">Congés payés</span>
+                <span class="font-bold text-primary-700">25 jours</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-secondary-600">RTT</span>
+                <span class="font-bold text-primary-700">8 jours</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-secondary-600">Congés maladie</span>
+                <span class="font-bold text-primary-700">5 jours</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-xl shadow-md border border-secondary-100 hover:shadow-lg transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-semibold text-secondary-800">Demandes en cours</h4>
+              <span class="material-icons text-primary-500">pending_actions</span>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span class="text-secondary-600">En attente</span>
+                <span class="font-bold text-warning-600">2</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-secondary-600">Approuvées</span>
+                <span class="font-bold text-success-600">5</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-secondary-600">Refusées</span>
+                <span class="font-bold text-danger-600">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-xl shadow-md border border-secondary-100 hover:shadow-lg transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-semibold text-secondary-800">Prochains congés</h4>
+              <span class="material-icons text-primary-500">flight_takeoff</span>
+            </div>
+            <div class="space-y-3">
+              <div>
+                <p class="font-medium text-secondary-800">Congés d'été</p>
+                <p class="text-sm text-secondary-600">15 - 30 juillet 2025</p>
+              </div>
+              <div>
+                <p class="font-medium text-secondary-800">Pont de mai</p>
+                <p class="text-sm text-secondary-600">1 - 2 mai 2025</p>
+              </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-5 rounded-xl shadow-sm border border-secondary-100">
+          <h4 class="font-semibold mb-4 text-secondary-800">Actions rapides</h4>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="#demande" class="bg-primary-600 text-white p-4 rounded-lg flex flex-col items-center hover:bg-primary-700 transition-all">
+              <span class="material-icons text-3xl">add_circle</span>
+              <span class="mt-2 text-sm">Nouvelle demande</span>
+            </a>
+            <a href="#mes-conges" class="bg-secondary-100 p-4 rounded-lg flex flex-col items-center hover:bg-secondary-200 transition-all text-secondary-700">
+              <span class="material-icons text-3xl">list_alt</span>
+              <span class="mt-2 text-sm">Mes congés</span>
+            </a>
+            <a href="#statistiques" class="bg-secondary-100 p-4 rounded-lg flex flex-col items-center hover:bg-secondary-200 transition-all text-secondary-700">
+              <span class="material-icons text-3xl">bar_chart</span>
+              <span class="mt-2 text-sm">Statistiques</span>
+            </a>
+            <a href="#parametres" class="bg-secondary-100 p-4 rounded-lg flex flex-col items-center hover:bg-secondary-200 transition-all text-secondary-700">
+              <span class="material-icons text-3xl">settings</span>
+              <span class="mt-2 text-sm">Paramètres</span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- PAGE MES CONGÉS -->
+    <div id="mes-conges" class="page">
+      <div class="max-w-7xl mx-auto p-6">
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold text-secondary-800">Mes congés</h1>
+          <p class="text-secondary-600">Consultez et gérez vos demandes de congés</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">Congés restants</p>
+            <p class="text-3xl font-bold text-primary-700">23</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">En attente</p>
+            <p class="text-3xl font-bold text-warning-600">2</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">Approuvés</p>
+            <p class="text-3xl font-bold text-success-600">5</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">Refusés</p>
+            <p class="text-3xl font-bold text-danger-600">1</p>
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-xl overflow-hidden mb-6 border border-secondary-100">
+          <!-- Congés d'été -->
+          <div class="p-6 border-b border-secondary-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold text-secondary-800">Congés d'été</h3>
+                <p class="text-secondary-600">Du 15 juillet 2025</p>
+                <p class="text-secondary-600">Au 29 juillet 2025</p>
+                <div class="mt-2">
+                  <span class="bg-warning-100 text-warning-800 px-2 py-1 rounded-full text-sm">En attente</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-primary-700">15 jours</p>
+                <div class="mt-2 flex space-x-2">
+                  <button class="text-primary-600 hover:text-primary-800 text-sm transition-all">Modifier</button>
+                  <button class="text-danger-600 hover:text-danger-800 text-sm transition-all">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pont de mai -->
+          <div class="p-6 border-b border-secondary-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold text-secondary-800">Pont de mai</h3>
+                <p class="text-secondary-600">Du 2 mai 2025</p>
+                <p class="text-secondary-600">Au 2 mai 2025</p>
+                <div class="mt-2">
+                  <span class="bg-success-100 text-success-800 px-2 py-1 rounded-full text-sm">Approuvé</span>
+                </div>
+                <p class="text-sm text-secondary-600 mt-1">Type: Congés payés</p>
+                <p class="text-sm text-secondary-600">Approuvé par Jean Martin</p>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-primary-700">1 jour</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Congés de Pâques -->
+          <div class="p-6 border-b border-secondary-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold text-secondary-800">Congés de Pâques</h3>
+                <p class="text-secondary-600">Du 14 avril 2025</p>
+                <p class="text-secondary-600">Au 18 avril 2025</p>
+                <div class="mt-2">
+                  <span class="bg-success-100 text-success-800 px-2 py-1 rounded-full text-sm">Approuvé</span>
+                </div>
+                <p class="text-sm text-secondary-600 mt-1">Type: Congés payés</p>
+                <p class="text-sm text-secondary-600">Approuvé par Jean Martin</p>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-primary-700">5 jours</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formation urgente -->
+          <div class="p-6 border-b border-secondary-100">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold text-secondary-800">Formation urgente</h3>
+                <p class="text-secondary-600">Du 10 mars 2025</p>
+                <p class="text-secondary-600">Au 12 mars 2025</p>
+                <div class="mt-2">
+                  <span class="bg-warning-100 text-warning-800 px-2 py-1 rounded-full text-sm">En attente</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-primary-700">3 jours</p>
+                <div class="mt-2 flex space-x-2">
+                  <button class="text-primary-600 hover:text-primary-800 text-sm transition-all">Modifier</button>
+                  <button class="text-danger-600 hover:text-danger-800 text-sm transition-all">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Congés de Noël -->
+          <div class="p-6">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold text-secondary-800">Congés de Noël</h3>
+                <p class="text-secondary-600">Du 23 décembre 2024</p>
+                <p class="text-secondary-600">Au 2 janvier 2025</p>
+                <div class="mt-2">
+                  <span class="bg-danger-100 text-danger-800 px-2 py-1 rounded-full text-sm">Refusé</span>
+                </div>
+                <p class="text-sm text-secondary-600 mt-2 font-semibold">Motif du refus:</p>
+                <p class="text-sm text-secondary-600">Période de forte activité, demande trop tardive</p>
+                <p class="text-sm text-secondary-600 mt-1">Refusé par Jean Martin</p>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-primary-700">11 jours</p>
+                <div class="mt-2 flex space-x-2">
+                  <button class="text-primary-600 hover:text-primary-800 text-sm transition-all">Modifier</button>
+                  <button class="text-danger-600 hover:text-danger-800 text-sm transition-all">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md border border-secondary-100">
+          <h3 class="font-semibold mb-4 text-secondary-800">Ressources Humaines</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <p class="text-sm text-secondary-600">Service RH</p>
+              <p class="text-sm text-primary-600">rh@entreprise.com</p>
+              <p class="text-sm text-secondary-600">01 23 45 67 89</p>
+            </div>
+            <div>
+              <p class="text-sm text-secondary-600">Adresse</p>
+              <p class="text-sm text-secondary-600">123 Rue de l'Entreprise</p>
+              <p class="text-sm text-secondary-600">75001 Paris France</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE DEMANDE -->
+    <div id="demande" class="page">
+      <div class="max-w-7xl mx-auto p-6">
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold text-secondary-800">Nouvelle demande de congé</h1>
+          <p class="text-secondary-600">Remplissez le formulaire ci-dessous pour soumettre votre demande de congé.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="md:col-span-2">
+            <div class="bg-white shadow-lg rounded-xl p-6 border border-secondary-100">
+              <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-medium mb-1 text-secondary-700">Date de début</label>
+                    <input type="date" class="w-full border border-secondary-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all">
+                  </div>
+                  <div>
+                    <label class="block font-medium mb-1 text-secondary-700">Date de fin</label>
+                    <input type="date" class="w-full border border-secondary-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-medium mb-1 text-secondary-700">Type de congé</label>
+                  <select class="w-full border border-secondary-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all">
+                    <option>Sélectionnez un type de congé</option>
+                    <option>Congés payés</option>
+                    <option>RTT</option>
+                    <option>Congé maladie</option>
+                    <option>Congé personnel</option>
+                    <option>Sans solde</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block font-medium mb-1 text-secondary-700">Justification</label>
+                  <textarea class="w-full border border-secondary-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all" rows="4" placeholder="Décrivez la raison de votre demande de congé..."></textarea>
+                  <p class="text-sm text-secondary-500 mt-1">Maximum 500 caractères</p>
+                </div>
+
+                <div class="flex items-start">
+                  <input type="checkbox" class="mt-1 mr-2 accent-primary-600">
+                  <label class="text-sm text-secondary-600">
+                    Information importante : Votre demande sera transmise à votre manager pour validation. Vous recevrez une notification par email une fois la décision prise.
+                  </label>
+                </div>
+
+                <div class="flex justify-end gap-4">
+                  <button type="reset" class="px-4 py-2 bg-secondary-200 text-secondary-700 rounded-lg hover:bg-secondary-300 transition-all">Réinitialiser</button>
+                  <button type="submit" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 flex items-center gap-2 transition-all">
+                    <span class="material-icons">send</span> Soumettre la demande
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <div class="bg-white p-5 rounded-xl shadow-md mb-6 border border-secondary-100">
+              <h3 class="font-semibold mb-4 text-secondary-800">Mes dernières demandes</h3>
+              <div class="space-y-4">
+                <div>
+                  <p class="font-medium text-secondary-800">Congés payés</p>
+                  <p class="text-sm text-secondary-600">15/03/2025 - 19/03/2025</p>
+                  <span class="bg-warning-100 text-warning-800 px-2 py-1 rounded-full text-sm">En attente</span>
+                </div>
+                <div>
+                  <p class="font-medium text-secondary-800">Congé personnel</p>
+                  <p class="text-sm text-secondary-600">08/02/2025 - 08/02/2025</p>
+                  <span class="bg-success-100 text-success-800 px-2 py-1 rounded-full text-sm">Approuvé</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl shadow-md border border-secondary-100">
+              <h3 class="font-semibold mb-4 text-secondary-800">Contact RH</h3>
+              <p class="text-sm text-primary-600">rh@entreprise.com</p>
+              <p class="text-sm text-secondary-600">+33 123 45 67 89</p>
+              <p class="text-sm text-secondary-600">Lun-Ven 9h-17h</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE ADMIN -->
+    <div id="admin" class="page">
+      <div class="max-w-7xl mx-auto p-6">
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold text-secondary-800">Gestion des congés</h1>
+          <p class="text-secondary-600">Gérez toutes les demandes de congés des employés</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">En attente</p>
+            <p class="text-3xl font-bold text-warning-600">12</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">Approuvées</p>
+            <p class="text-3xl font-bold text-success-600">45</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">Refusées</p>
+            <p class="text-3xl font-bold text-danger-600">3</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-md text-center border border-secondary-100 hover:shadow-lg transition-all">
+            <p class="text-sm text-secondary-600">Total ce mois</p>
+            <p class="text-3xl font-bold text-primary-700">60</p>
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-xl overflow-hidden mb-6 border border-secondary-100">
+          <div class="p-6 border-b border-secondary-100">
+            <h2 class="font-semibold mb-4 text-secondary-800">Demandes de congés</h2>
+            
+            <!-- Marie Dubois -->
+            <div class="mb-6 pb-6 border-b border-secondary-100">
+              <div class="flex justify-between items-start mb-4">
+                  <h3 class="font-semibold text-secondary-800">Marie Dubois</h3>
+                  <p class="text-sm text-secondary-600">Développeuse</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="px-3 py-1 bg-success-600 text-white rounded-lg hover:bg-success-700 flex items-center gap-1 transition-all">
+                    <span class="material-icons text-sm">check</span> Approuver
+                  </button>
+                  <button class="px-3 py-1 bg-danger-600 text-white rounded-lg hover:bg-danger-700 flex items-center gap-1 transition-all">
+                    <span class="material-icons text-sm">close</span> Refuser
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <p class="text-sm text-secondary-600">Type</p>
+                  <p class="font-medium text-secondary-800">Congés payés</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Du</p>
+                  <p class="font-medium text-secondary-800">15 Jan 2025</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Au</p>
+                  <p class="font-medium text-secondary-800">22 Jan 2025</p>
+                </div>
+              </div>
+              <div class="mt-4">
+                <p class="text-sm text-secondary-600">Durée</p>
+                <p class="font-medium text-primary-700">5 jours</p>
+              </div>
+            </div>
+
+            <!-- Pierre Martin -->
+            <div class="mb-6 pb-6 border-b border-secondary-100">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="font-semibold text-secondary-800">Pierre Martin</h3>
+                  <p class="text-sm text-secondary-600">Designer</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="px-3 py-1 bg-success-600 text-white rounded-lg hover:bg-success-700 flex items-center gap-1 transition-all">
+                    <span class="material-icons text-sm">check</span> Approuver
+                  </button>
+                  <button class="px-3 py-1 bg-danger-600 text-white rounded-lg hover:bg-danger-700 flex items-center gap-1 transition-all">
+                    <span class="material-icons text-sm">close</span> Refuser
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <p class="text-sm text-secondary-600">Type</p>
+                  <p class="font-medium text-secondary-800">Congé maladie</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Du</p>
+                  <p class="font-medium text-secondary-800">20 Jan 2025</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Au</p>
+                  <p class="font-medium text-secondary-800">21 Jan 2025</p>
+                </div>
+              </div>
+              <div class="mt-4">
+                <p class="text-sm text-secondary-600">Durée</p>
+                <p class="font-medium text-primary-700">2 jours</p>
+              </div>
+            </div>
+
+            <!-- Sophie Laurent -->
+            <div class="mb-6 pb-6 border-b border-secondary-100">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="font-semibold text-secondary-800">Sophie Laurent</h3>
+                  <p class="text-sm text-secondary-600">Chef de projet</p>
+                </div>
+                <div>
+                  <button class="px-3 py-1 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all">
+                    Voir
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <p class="text-sm text-secondary-600">Type</p>
+                  <p class="font-medium text-secondary-800">Congés payés</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Du</p>
+                  <p class="font-medium text-secondary-800">25 Jan 2025</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Au</p>
+                  <p class="font-medium text-secondary-800">05 Fév 2025</p>
+                </div>
+              </div>
+              <div class="mt-4">
+                <p class="text-sm text-secondary-600">Durée</p>
+                <p class="font-medium text-primary-700">8 jours</p>
+              </div>
+              <div class="mt-2">
+                <span class="bg-success-100 text-success-800 px-2 py-1 rounded-full text-sm">Approuvé</span>
+              </div>
+            </div>
+
+            <!-- Thomas Petit -->
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="font-semibold text-secondary-800">Thomas Petit</h3>
+                  <p class="text-sm text-secondary-600">Analyste</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="px-3 py-1 bg-success-600 text-white rounded-lg hover:bg-success-700 flex items-center gap-1 transition-all">
+                    <span class="material-icons text-sm">check</span> Approuver
+                  </button>
+                  <button class="px-3 py-1 bg-danger-600 text-white rounded-lg hover:bg-danger-700 flex items-center gap-1 transition-all">
+                    <span class="material-icons text-sm">close</span> Refuser
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <p class="text-sm text-secondary-600">Type</p>
+                  <p class="font-medium text-secondary-800">RTT</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Du</p>
+                  <p class="font-medium text-secondary-800">28 Jan 2025</p>
+                </div>
+                <div>
+                  <p class="text-sm text-secondary-600">Au</p>
+                  <p class="font-medium text-secondary-800">28 Jan 2025</p>
+                </div>
+              </div>
+              <div class="mt-4">
+                <p class="text-sm text-secondary-600">Durée</p>
+                <p class="font-medium text-primary-700">1 jour</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-secondary-100 flex justify-between items-center">
+            <p class="text-sm text-secondary-600">Affichage de 1 à 4 sur 60 demandes</p>
+            <div class="flex space-x-2">
+              <button class="p-1 hover:bg-secondary-200 rounded-full transition-all">◀</button>
+              <button class="p-1 hover:bg-secondary-200 rounded-full transition-all">▶</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-secondary-800 text-white py-8 mt-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="font-semibold mb-4">Contact RH</h3>
+          <p class="text-sm text-secondary-300">rh@entreprise.com</p>
+          <p class="text-sm text-secondary-300">+33 123 45 67 89</p>
+          <p class="text-sm text-secondary-300">Lun-Ven 9h-17h</p>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold mb-4">Adresse</h3>
+          <p class="text-sm text-secondary-300">123 Rue de l'Entreprise</p>
+          <p class="text-sm text-secondary-300">75001 Paris, France</p>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold mb-4">Liens utiles</h3>
+          <ul class="text-sm space-y-2">
+            <li><a href="#" class="text-secondary-300 hover:text-white transition-all">Politique de congés</a></li>
+            <li><a href="#" class="text-secondary-300 hover:text-white transition-all">Guide employé</a></li>
+            <li><a href="#" class="text-secondary-300 hover:text-white transition-all">Support technique</a></li>
+            <li><a href="#" class="text-secondary-300 hover:text-white transition-all">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-secondary-700 mt-8 pt-6 text-center text-sm text-secondary-300">
+        <p>© 2025 Entreprise. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
