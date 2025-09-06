@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard RH</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    .nav-link.active {
+      color: #3b82f6;
+      border-bottom: 2px solid #3b82f6;
+    }
+    .transition-all {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      
+      <a href="dashboard.html" class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded">
+          <span class="font-bold">RH</span>
+        </div>
+        <span class="text-lg font-semibold text-gray-800">Dashboard RH</span>
+      </a>
+
+      <nav class="hidden md:flex space-x-6 text-gray-600 font-medium">
+        <a href="dashboard.html" class="nav-link active text-blue-600 border-b-2 border-blue-600 pb-1">Dashboard</a>
+        <a href="mes-conges.html" class="nav-link hover:text-blue-600 transition-all">Mes congés</a>
+        <a href="demande.html" class="nav-link hover:text-blue-600 transition-all">Demande de congé</a>
+        <a href="admin.html" class="nav-link hover:text-blue-600 transition-all">Administration</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <button class="relative">
+          <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C8.67 6.165 8 7.388 8 9v5.159c0 .538-.214 1.055-.595 1.436L6 17h5" />
+          </svg>
+        </button>
+        <div class="relative">
+          <img src="https://i.pravatar.cc/40" alt="profil" class="w-10 h-10 rounded-full border-2 border-blue-200">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <div class="max-w-7xl mx-auto p-6 space-y-6">
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Tableau de bord</h1>
+        <p class="text-gray-600">Bienvenue, gérez vos congés et suivez vos demandes</p>
+      </div>
+
+      <section class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+        <div class="flex items-center space-x-3">
+          <div class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full">
+            <span class="material-icons">notifications</span>
+          </div>
+          <div>
+            <h3 class="font-semibold text-blue-800">Fermeture exceptionnelle</h3>
+            <p class="text-sm text-blue-700">
+              Les bureaux seront fermés le 15 mars 2025 pour maintenance. Planifiez vos congés en conséquence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-white p-5 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-semibold text-gray-800">Solde de congés</h4>
+            <span class="material-icons text-blue-500">event</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Congés payés</span>
+              <span class="font-bold text-blue-600">25 jours</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">RTT</span>
+              <span class="font-bold text-blue-600">8 jours</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Congés maladie</span>
+              <span class="font-bold text-blue-600">5 jours</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-semibold text-gray-800">Demandes en cours</h4>
+            <span class="material-icons text-blue-500">pending_actions</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span class="text-gray-600">En attente</span>
+              <span class="font-bold text-yellow-600">2</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Approuvées</span>
+              <span class="font-bold text-green-600">5</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Refusées</span>
+              <span class="font-bold text-red-600">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-semibold text-gray-800">Prochains congés</h4>
+            <span class="material-icons text-blue-500">flight_takeoff</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <p class="font-medium text-gray-800">Congés d'été</p>
+              <p class="text-sm text-gray-600">15 - 30 juillet 2025</p>
+            </div>
+            <div>
+              <p class="font-medium text-gray-800">Pont de mai</p>
+              <p class="text-sm text-gray-600">1 - 2 mai 2025</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h4 class="font-semibold mb-4 text-gray-800">Actions rapides</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <a href="demande.html" class="bg-blue-600 text-white p-4 rounded-lg flex flex-col items-center hover:bg-blue-700 transition-all">
+            <span class="material-icons text-3xl">add_circle</span>
+            <span class="mt-2 text-sm">Nouvelle demande</span>
+          </a>
+          <a href="mes-conges.html" class="bg-gray-100 p-4 rounded-lg flex flex-col items-center hover:bg-gray-200 transition-all text-gray-700">
+            <span class="material-icons text-3xl">list_alt</span>
+            <span class="mt-2 text-sm">Mes congés</span>
+          </a>
+          <a href="#" class="bg-gray-100 p-4 rounded-lg flex flex-col items-center hover:bg-gray-200 transition-all text-gray-700">
+            <span class="material-icons text-3xl">bar_chart</span>
+            <span class="mt-2 text-sm">Statistiques</span>
+          </a>
+          <a href="#" class="bg-gray-100 p-4 rounded-lg flex flex-col items-center hover:bg-gray-200 transition-all text-gray-700">
+            <span class="material-icons text-3xl">settings</span>
+            <span class="mt-2 text-sm">Paramètres</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8 mt-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="font-semibold mb-4">Contact RH</h3>
+          <p class="text-sm text-gray-300">rh@entreprise.com</p>
+          <p class="text-sm text-gray-300">+33 123 45 67 89</p>
+          <p class="text-sm text-gray-300">Lun-Ven 9h-17h</p>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold mb-4">Adresse</h3>
+          <p class="text-sm text-gray-300">123 Rue de l'Entreprise</p>
+          <p class="text-sm text-gray-300">75001 Paris, France</p>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold mb-4">Liens utiles</h3>
+          <ul class="text-sm space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-white transition-all">Politique de congés</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-all">Guide employé</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-all">Support technique</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-all">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-300">
+        <p>© 2025 Entreprise. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
